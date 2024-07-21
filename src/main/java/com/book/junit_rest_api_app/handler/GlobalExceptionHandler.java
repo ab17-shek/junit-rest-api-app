@@ -3,7 +3,6 @@ package com.book.junit_rest_api_app.handler;
 import com.book.junit_rest_api_app.exception.BookNotFoundException;
 import com.book.junit_rest_api_app.model.ErrorDetail;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
