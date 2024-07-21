@@ -31,14 +31,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class BookControllerTest {
 
+    private MockMvc mockMvc;
+
+    @Mock
+    private BookServiceImpl bookService;
+
+    @InjectMocks
+    private BookController bookController;
+
     Book book1 = new Book(1L, "Ikigai", 10);
     Book book2 = new Book(2L, "Money", 7);
     Book book3 = new Book(3L, "Man Matters", 10);
-    private MockMvc mockMvc;
-    @Mock
-    private BookServiceImpl bookService;
-    @InjectMocks
-    private BookController bookController;
 
     @BeforeEach
     public void init() {
