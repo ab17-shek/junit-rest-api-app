@@ -1,0 +1,65 @@
+Junit -> code with durgesh
+Mockito - https://www.youtube.com/watch?v=KYkEMuA50yE
+-> https://howtodoinjava.com/spring-boot2/testing/rest-controller-unit-test-example/
+-> https://howtodoinjava.com/spring-boot2/testing/spring-boot-mockito-junit-example/
+
+Learn to write unit tests for the controller layer of Spring boot applications using JUnit 5 and Mockito testing frameworks.
+We are using Spring Boot 3 in this demo
+
+Mockito Implementation steps----
+
+1. Dependency
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+
+    The spring-boot-starter-test dependency transitively imports JUnit 5 and Mockito. So we only need to include this dependency.
+
+2. Initializing Mocks
+
+    a. The @Mock annotation creates a mock implementation for the class it is annotated with.
+    b. @InjectMocks also creates the mock implementation of annotated type and injects the dependent mocks into it.
+
+    @ExtendWith(MockitoExtension.class)
+    @MockitoSettings(strictness = Strictness.LENIENT)
+    public class BookControllerTest {
+
+        private MockMvc mockMvc;
+        @Mock
+        private BookServiceImpl bookService;
+        @InjectMocks
+        private BookController bookController;
+
+    In the above example, we have annotated BookController class with @InjectMocks,
+    so mockito will create the mock object for BookController class and inject the mock dependency of BookServiceImpl into it.
+
+    * To process Mockito annotations with JUnit, we need to use MockitoExtention which automatically initializes all the objects annotated
+    with @Mock and @InjectMocks annotations.
+
+    *  use MockMvc bean instance to invoke the APIs and verify the results
+
+3. Initialization with MockitoAnnotations.openMocks()
+
+    If we are not using the MockitoJUnitRunner class approach, then we can use the static method MockitoAnnotations.openMocks().
+    Upon initialization of junit tests, this method also initializes the mock objects.
+
+    Note - The previously used MockitoAnnotations.initMocks() method has been deprecated and should not be used.
+
+        @BeforeEach
+        public void init() {
+            MockitoAnnotations.openMocks(this);
+            this.mockMvc = MockMvcBuilders.standaloneSetup(bookController).build();
+        }
+
+4. Test cases examples are in Test package
+
+Mockito Learnings----
+
+Mockito throws an UnsupportedStubbingException when an initialized mock is not called during test execution. If there are such optional mocked behavior then use Mockito.lenient()
+
+-> Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+
+Solution = @MockitoSettings(strictness = Strictness.LENIENT) is the simplest way to adjust strictness in my setup
